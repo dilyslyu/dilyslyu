@@ -1,0 +1,340 @@
+<!doctype html><html lang><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>javascript 中 Set Map - Dilys.Lyu Blog - A Front Programmer.</title><meta name=Description content="这是 Dilys.Lyu 的个人博客。"><meta property="og:title" content="javascript 中 Set Map"><meta property="og:description" content="Set 定义: Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用， Set 对象是值的集合，你可以按照插入的顺序迭代它的元素。 Set 中的元素只会出现"><meta property="og:type" content="article"><meta property="og:url" content="https://www.dilyslyu.com/2022/03/javascript-%E4%B8%AD-set-map/"><meta property="og:image" content="https://www.dilyslyu.com/logo.svg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-03-04T17:17:33+00:00"><meta property="article:modified_time" content="2022-03-04T17:17:33+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://www.dilyslyu.com/logo.svg"><meta name=twitter:title content="javascript 中 Set Map"><meta name=twitter:description content="Set 定义: Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用， Set 对象是值的集合，你可以按照插入的顺序迭代它的元素。 Set 中的元素只会出现"><meta name=application-name content="Dilys.Lyu"><meta name=apple-mobile-web-app-title content="Dilys.Lyu"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://www.dilyslyu.com/2022/03/javascript-%E4%B8%AD-set-map/><link rel=prev href=https://www.dilyslyu.com/2022/03/vue-%E4%B8%AD%E6%89%A9%E5%B1%95%E8%BF%90%E7%AE%97%E7%AC%A6-%E4%B8%89%E4%B8%AA%E7%82%B9/><link rel=next href=https://www.dilyslyu.com/2022/03/%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96-arr-flat-infinity/><link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.0/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"javascript 中 Set Map","inLanguage":"","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/www.dilyslyu.com\/2022\/03\/javascript-%E4%B8%AD-set-map\/"},"genre":"posts","wordcount":1942,"url":"https:\/\/www.dilyslyu.com\/2022\/03\/javascript-%E4%B8%AD-set-map\/","datePublished":"2022-03-04T17:17:33+00:00","dateModified":"2022-03-04T17:17:33+00:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Dilys.Lyu"},"author":{"@type":"Person","name":"Dilys.Lyu"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Dilys.Lyu Blog - A Front Programmer."><img class="lazyload logo" src=/svg/loading.min.svg data-src=/jonnyhub-logo.png data-srcset="/jonnyhub-logo.png, /jonnyhub-logo.png 1.5x, /jonnyhub-logo.png 2x" data-sizes=auto alt=/jonnyhub-logo.png title=/jonnyhub-logo.png><span class=header-title-pre> </span>Dilys's Blog</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/ title=所有文章>所有文章 </a><a class=menu-item href=/tags/ title=文章标签>标签 </a><a class=menu-item href=/categories/ title=文章分类>分类 </a><a class=menu-item href=/about title="关于 | About - Hellen's Blog">关于 </a><a class=menu-item href=/bookmark title="书签 | 我的常用书签">书签 </a><a class=menu-item href=https://github.com/dilyslyu title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索本站 id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Dilys.Lyu Blog - A Front Programmer."><img class="lazyload logo" src=/svg/loading.min.svg data-src=/jonnyhub-logo.png data-srcset="/jonnyhub-logo.png, /jonnyhub-logo.png 1.5x, /jonnyhub-logo.png 2x" data-sizes=auto alt=/jonnyhub-logo.png title=/jonnyhub-logo.png><span class=header-title-pre> </span>Dilys's Blog</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索本站 id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title=所有文章>所有文章</a><a class=menu-item href=/tags/ title=文章标签>标签</a><a class=menu-item href=/categories/ title=文章分类>分类</a><a class=menu-item href=/about title="关于 | About - Hellen's Blog">关于</a><a class=menu-item href=/bookmark title="书签 | 我的常用书签">书签</a><a class=menu-item href=https://github.com/dilyslyu title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">javascript 中 Set Map</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/hellenhub title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>Dilys.Lyu</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022年03月04日>2022年03月04日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1942 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;<span id=/2022/03/javascript-%E4%B8%AD-set-map/ class=leancloud_visitors data-flag-title="javascript 中 Set Map">
+<i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#set>Set</a><ul><li><a href=#属性及方法>属性及方法</a></li><li><a href=#应用场景>应用场景</a></li></ul></li><li><a href=#weakset>WeakSet</a><ul><li><a href=#与-set-的区别>与 Set 的区别</a></li></ul></li><li><a href=#map>Map</a><ul><li><a href=#基本使用>基本使用</a></li><li><a href=#属性方法>属性方法</a></li><li><a href=#应用场景n>应用场景n</a></li><li><a href=#weakmap>WeakMap</a></li><li><a href=#类型的转换>类型的转换</a></li></ul></li><li><a href=#总结>总结</a></li></ul></li></ul></nav></div></div><div class=content id=content><h3 id=set>Set</h3><p>定义: Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用， Set 对象是值的集合，你可以按照插入的顺序迭代它的元素。 Set 中的元素只会出现一次，即 Set 中的元素是唯一的</p><p>Set 本身是一个构造函数，用来生成 Set 数据结构</p><p>基本使用</p><p>语法</p><p><code>new Set([iterable]) 接收一个数组(或者具有 iterable 接口的其他数据结构), 返回一个新的 Set 对象</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kr>const</span> <span class=nx>set</span><span class=o>=</span> <span class=k>new</span> <span class=nx>Set</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>,</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span> <span class=nx>set</span><span class=p>)</span> <span class=c1>// { 1, 2}
+</span></span></span></code></pre></td></tr></table></div></div><p>上面代码可以看出 Set 是可以去除数组中的重复元素</p><h4 id=属性及方法>属性及方法</h4><p>属性</p><p>size: 返回集合中所包含的元素的数量</p><p><code>console.log(new Set([1,2,1,2]).size)// 2</code></p><p>操作方法</p><p>add(value): 向集合中添加一个新的项</p><p>delete(value): 从集合中删除一个值</p><p>has(value): 如果值在集合中存在，返回ture, 否则返回false</p><p>clear: 移除集合中的所有项</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>let</span> <span class=nx>set</span><span class=o>=</span> <span class=k>new</span> <span class=nx>Set</span>
+</span></span><span class=line><span class=cl><span class=nx>set</span><span class=p>.</span><span class=nx>add</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>set</span><span class=p>.</span><span class=nx>add</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>set</span><span class=p>.</span><span class=nx>add</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>set</span><span class=p>.</span><span class=nx>add</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span> <span class=nx>set</span><span class=p>)</span> <span class=c1>// { 1, 2, 3}
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>set</span><span class=p>.</span><span class=nx>has</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=c1>// true
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>set</span><span class=p>.</span><span class=k>delete</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nx>set</span><span class=p>.</span><span class=nx>has</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=c1>// false
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>set</span><span class=p>.</span><span class=nx>clear</span>
+</span></span></code></pre></td></tr></table></div></div><p>遍历方法</p><p>keys: 返回键名的遍历器</p><p>values: 返回键值的遍历器</p><p>entries: 返回键值对的遍历器</p><p>forEach: 使用回调函数遍历每个成员</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>let</span> <span class=nx>set</span><span class=o>=</span> <span class=k>new</span> <span class=nx>Set</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>,</span><span class=mi>3</span><span class=p>,</span><span class=mi>4</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 由于 set只有键值，没有键名，所以keys values行为完全一致
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nb>Array</span><span class=p>.</span><span class=nx>from</span><span class=p>(</span> <span class=nx>set</span><span class=p>.</span><span class=nx>keys</span><span class=p>))</span> <span class=c1>// [1,2,3,4]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nb>Array</span><span class=p>.</span><span class=nx>from</span><span class=p>(</span> <span class=nx>set</span><span class=p>.</span><span class=nx>values</span><span class=p>))</span> <span class=c1>// [1,2,3,4]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nb>Array</span><span class=p>.</span><span class=nx>from</span><span class=p>(</span> <span class=nx>set</span><span class=p>.</span><span class=nx>entries</span><span class=p>))</span> <span class=c1>// [[1,1],[2,2],[3,3],[4,4]]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>set</span><span class=p>.</span><span class=nx>forEach</span><span class=p>((</span><span class=nx>item</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span> <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>item</span><span class=p>)})</span> <span class=c1>// 1,2,3,4
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=应用场景>应用场景</h4><p>因为 Set 结构的值是唯一的，我们可以很轻松的实现以下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=c1>// 数组去重
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>arr</span> <span class=o>=</span> <span class=p>[</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>unique</span> <span class=o>=</span> <span class=p>[...</span> <span class=k>new</span> <span class=nx>Set</span><span class=p>(</span><span class=nx>arr</span><span class=p>)];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>a</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Set</span><span class=p>([</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>b</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Set</span><span class=p>([</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>2</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 并集
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>union</span> <span class=o>=</span> <span class=p>[...</span><span class=k>new</span> <span class=nx>Set</span><span class=p>([...</span><span class=nx>a</span><span class=p>,</span> <span class=p>...</span><span class=nx>b</span><span class=p>])];</span> <span class=c1>// [1,2,3,4]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// 交集
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>intersect</span> <span class=o>=</span> <span class=p>[...</span><span class=k>new</span> <span class=nx>Set</span><span class=p>([...</span><span class=nx>a</span><span class=p>].</span><span class=nx>filter</span><span class=p>(</span> <span class=nx>x</span><span class=p>=&gt;</span><span class=nx>b</span><span class=p>.</span><span class=nx>has</span><span class=p>(</span><span class=nx>x</span><span class=p>)))];</span> <span class=p>[</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 差集
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>difference</span> <span class=o>=</span> <span class=nb>Array</span><span class=p>.</span><span class=nx>from</span><span class=p>(</span> <span class=k>new</span> <span class=nx>Set</span><span class=p>([...</span><span class=nx>a</span><span class=p>].</span><span class=nx>filter</span><span class=p>(</span> <span class=nx>x</span><span class=p>=&gt;</span><span class=o>!</span><span class=nx>b</span><span class=p>.</span><span class=nx>has</span><span class=p>(</span><span class=nx>x</span><span class=p>))));</span> <span class=p>[</span> <span class=mi>1</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=weakset>WeakSet</h3><p>WeakSet 对象是一些对象值的集合, 并且其中的每个对象值都只能出现一次。在WeakSet的集合中是唯一的</p><p>WeakSet 的出现主要解决弱引用对象存储的场景, 其结构与 Set 类似</p><h4 id=与-set-的区别>与 Set 的区别</h4><p>与Set相比，WeakSet 只能是对象的集合，而不能是任何类型的任意值</p><p>WeakSet集合中对象的引用为弱引用。如果没有其他的对WeakSet中对象的引用，那么这些对象会被当成垃圾回收掉。这也意味着WeakSet中没有存储当前对象的列表。正因为这样，WeakSet 是不可枚举的</p><p>WeakSet 的属性跟操作方法与 Set 一致，不同的是 WeakSet 没有遍历方法，因为其成员都是弱引用，弱引用随时都会消失，遍历机制无法保证成员的存在</p><p>弱引用是指不能确保其引用的对象不会被垃圾回收器回收的引用，换句话说就是可能在任意时间被回收</p><h3 id=map>Map</h3><p>Map 对象保存键值对，并且能够记住键的原始插入顺序。任何值(对象或者原始值) 都可以作为一个键或一个值。一个Map对象在迭代时会根据对象中元素的插入顺序来进行 — 一个 for&mldr;of 循环在每次迭代后会返回一个形式为[key，value]的数组</p><h4 id=基本使用>基本使用</h4><p>语法</p><p><code>new Map([iterable]) Iterable</code> 可以是一个数组或者其他 iterable 对象，其元素为键值对(两个元素的数组，例如: [[ 1, &lsquo;one&rsquo; ],[ 2, &rsquo;two&rsquo; ]])。每个键值对都会添加到新的 Map</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>let</span> <span class=nx>map</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Map</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;vuejs.cn&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>map</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=属性方法>属性方法</h4><p>基本跟 Set 类似，同样具有如下方法 属性</p><p>size: 返回 Map 结构的元素总数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>let</span> <span class=nx>map</span> <span class=o>=</span><span class=k>new</span> <span class=nx>Map</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;vuejs.cn&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>map</span><span class=p>.</span><span class=nx>size</span><span class=p>)</span> <span class=c1>// 1
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span> <span class=nx>newMap</span><span class=p>([[</span> <span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;vue3js.cn&#39;</span><span class=p>],</span> <span class=p>[</span> <span class=s1>&#39;age&#39;</span><span class=p>,</span> <span class=s1>&#39;18&#39;</span><span class=p>]]).</span><span class=nx>size</span><span class=p>)</span> <span class=c1>// 2
+</span></span></span></code></pre></td></tr></table></div></div><p>操作方法</p><p>set(key, value): 向 Map 中加入或更新键值对</p><p>get(key): 读取 key 对用的值，如果没有，返回 undefined</p><p>has(key): 某个键是否在 Map 对象中，在返回 true 否则返回 false</p><p>delete(key): 删除某个键，返回 true, 如果删除失败返回 false</p><p>clear: 删除所有元素</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>let</span> <span class=nx>map</span> <span class=o>=</span><span class=k>new</span> <span class=nx>Map</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;vue3js.cn&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span> <span class=s1>&#39;age&#39;</span><span class=p>,</span> <span class=s1>&#39;18&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>map</span><span class=p>)</span> <span class=c1>// Map {&#34;name&#34; =&gt; &#34;vuejs.cn&#34;, &#34;age&#34; =&gt; &#34;18&#34;}
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>)</span> <span class=c1>// vue3js.cn
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>has</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>)</span> <span class=c1>// true
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=k>delete</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>has</span><span class=p>(</span><span class=nx>name</span><span class=p>)</span> <span class=c1>// false
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>clear</span> <span class=c1>// Map {}
+</span></span></span></code></pre></td></tr></table></div></div><p>遍历方法</p><p>keys：返回键名的遍历器</p><p>values：返回键值的遍历器</p><p>entries：返回所有成员的遍历器</p><p>forEach：遍历 Map 的所有成员</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>let</span> <span class=nx>map</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Map</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;vue3js.cn&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span> <span class=s1>&#39;age&#39;</span><span class=p>,</span> <span class=s1>&#39;18&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>([...</span><span class=nx>map</span><span class=p>.</span><span class=nx>keys</span><span class=p>])</span> <span class=c1>// [&#34;name&#34;, &#34;age&#34;]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>([...</span><span class=nx>map</span><span class=p>.</span><span class=nx>values</span><span class=p>])</span> <span class=c1>// [&#34;vue3js.cn&#34;, &#34;18&#34;]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>([...</span><span class=nx>map</span><span class=p>.</span><span class=nx>entries</span><span class=p>])</span> <span class=c1>// [[&#39;name&#39;,&#39;vue3js.cn&#39;], [&#39;age&#39;,&#39;18&#39;]]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// name vuejs.cn
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// age 18
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>map</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span> <span class=p>(</span> <span class=nx>value</span><span class=p>,</span> <span class=nx>key</span><span class=p>)</span> <span class=p>=&gt;{</span> <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>key</span><span class=p>,</span> <span class=nx>value</span><span class=p>)})</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=应用场景n>应用场景n</h4><p>Map 会保留所有元素的顺序, 是在基于可迭代的基础上构建的，如果考虑到元素迭代或顺序保留或键值类型丰富的情况下都可以使用，下面摘抄自 vue3 源码中依赖收集的核心实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>let</span> <span class=nx>depsMap</span> <span class=o>=</span> <span class=nx>targetMap</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=nx>target</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=nx>depsMap</span><span class=p>)</span> <span class=p>{</span><span class=kc>undefined</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>targetMap</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span><span class=nx>target</span><span class=p>,</span> <span class=p>(</span><span class=nx>depsMap</span> <span class=o>=</span> <span class=nx>newMap</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>dep</span> <span class=o>=</span> <span class=nx>depsMap</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=nx>key</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=nx>dep</span><span class=p>)</span> <span class=p>{</span><span class=kc>undefined</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>depsMap</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span><span class=nx>key</span><span class=p>,</span> <span class=p>(</span><span class=nx>dep</span> <span class=o>=</span> <span class=nx>newSet</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=nx>dep</span><span class=p>.</span><span class=nx>has</span><span class=p>(</span><span class=nx>activeEffect</span><span class=p>))</span> <span class=p>{</span><span class=kc>undefined</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>dep</span><span class=p>.</span><span class=nx>add</span><span class=p>(</span><span class=nx>activeEffect</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>activeEffect</span><span class=p>.</span><span class=nx>deps</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>dep</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=weakmap>WeakMap</h4><p>WeakMap 对象是一组键/值对的集合，其中的键是弱引用的。其键必须是对象，而值可以是任意的</p><p>与 Map 的区别</p><p>Map 的键可以是任意类型，WeakMap 的键只能是对象类型</p><p>WeakMap 键名所指向的对象，不计入垃圾回收机制</p><p>WeakMap 的属性跟操作方法与 Map 一致，同 WeakSet 一样，因为是弱引用，所以 WeakSet 也没有遍历方法</p><h4 id=类型的转换>类型的转换</h4><p>Map 转为 Array</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=c1>// 解构
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>map</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Map</span><span class=p>([[</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>],</span> <span class=p>[</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>2</span><span class=p>],</span> <span class=p>[</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>]])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>([...</span><span class=nx>map</span><span class=p>])</span> <span class=c1>// [[1, 1], [2, 2], [3, 3]]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// Array.from
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>map</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Map</span><span class=p>([[</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>],</span> <span class=p>[</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>2</span><span class=p>],</span> <span class=p>[</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>]])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span> <span class=nb>Array</span><span class=p>.</span><span class=nx>from</span><span class=p>(</span><span class=nx>map</span><span class=p>))</span> <span class=c1>// [[1, 1], [2, 2], [3, 3]]
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nb>Array</span> <span class=nx>转为</span> <span class=nx>Map</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>map</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Map</span><span class=p>([[</span><span class=mi>1</span><span class=p>,</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=mi>2</span><span class=p>,</span><span class=mi>2</span><span class=p>],</span> <span class=p>[</span><span class=mi>3</span><span class=p>,</span><span class=mi>3</span><span class=p>]])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>map</span><span class=p>)</span> <span class=c1>// Map {1 =&gt; 1, 2 =&gt; 2, 3 =&gt; 3}
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nx>Map</span> <span class=nx>转为</span> <span class=nb>Object</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 非字符串键名会被转换为字符串
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>mapToObj</span><span class=p>(</span> <span class=nx>map</span><span class=p>){</span><span class=kc>undefined</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>letobj</span> <span class=o>=</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>create</span><span class=p>(</span> <span class=kc>null</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=p>(</span> <span class=kd>let</span><span class=p>[</span><span class=nx>key</span><span class=p>,</span> <span class=nx>value</span><span class=p>]</span> <span class=nx>ofmap</span><span class=p>)</span> <span class=p>{</span><span class=kc>undefined</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>obj</span><span class=p>[</span><span class=nx>key</span><span class=p>]</span> <span class=o>=</span> <span class=nx>value</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>returnobj</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>constmap</span> <span class=o>=</span> <span class=nx>newMap</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span> <span class=s1>&#39;name&#39;</span><span class=p>,</span> <span class=s1>&#39;vue3js.cn&#39;</span><span class=p>).</span><span class=nx>set</span><span class=p>(</span> <span class=s1>&#39;age&#39;</span><span class=p>,</span> <span class=s1>&#39;18&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>mapToObj</span><span class=p>(</span><span class=nx>map</span><span class=p>)</span> <span class=c1>// {name: &#34;vue3js.cn&#34;, age: &#34;18&#34;}
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nb>Object</span> <span class=nx>转为</span> <span class=nx>Map</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>letobj</span> <span class=o>=</span> <span class=p>{</span><span class=kc>undefined</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34;a&#34;</span><span class=o>:</span><span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34;b&#34;</span><span class=o>:</span><span class=mi>2</span><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>let</span> <span class=nx>map</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Map</span><span class=p>(</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>entries</span><span class=p>(</span><span class=nx>obj</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=总结>总结</h3><p>Set、Map、WeakSet、WeakMap、都是一种集合的数据结构</p><p>Set、WeakSet 是[值,值]的集合，且具有唯一性</p><p>Map 和 WeakMap 是一种[键,值]的集合，Map 的键可以是任意类型，WeakMap 的键只能是对象类型</p><p>Set 和 Map 有遍历方法，WeakSet 和 WeakMap 属于弱引用不可遍历</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022年03月04日</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2022/03/javascript-%E4%B8%AD-set-map/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://www.dilyslyu.com/2022/03/javascript-%E4%B8%AD-set-map/ data-title="javascript 中 Set Map"><i class="fab fa-twitter fa-fw"></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://www.dilyslyu.com/2022/03/javascript-%E4%B8%AD-set-map/><i class="fab fa-facebook-square fa-fw"></i></a><a href=javascript:void(0); title="分享到 WhatsApp" data-sharer=whatsapp data-url=https://www.dilyslyu.com/2022/03/javascript-%E4%B8%AD-set-map/ data-title="javascript 中 Set Map" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://www.dilyslyu.com/2022/03/javascript-%E4%B8%AD-set-map/ data-title="javascript 中 Set Map" data-ralateuid=jonnychang><i class="fab fa-weibo fa-fw"></i></a><a href=javascript:void(0); title="分享到 Evernote" data-sharer=evernote data-url=https://www.dilyslyu.com/2022/03/javascript-%E4%B8%AD-set-map/ data-title="javascript 中 Set Map"><i class="fab fa-evernote fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2022/03/vue-%E4%B8%AD%E6%89%A9%E5%B1%95%E8%BF%90%E7%AE%97%E7%AC%A6-%E4%B8%89%E4%B8%AA%E7%82%B9/ class=prev rel=prev title="vue 中扩展运算符 ... (三个点)"><i class="fas fa-angle-left fa-fw"></i>vue 中扩展运算符 ... (三个点)</a>
+<a href=/2022/03/%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96-arr-flat-infinity/ class=next rel=next title="ES6之数组扁平化 arr.flat(Infinity)">ES6之数组扁平化 arr.flat(Infinity)<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2015 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/hellenhub target=_blank>Dilys.Lyu</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=http://beian.miit.gov.cn/ ; target=_blank>浙ICP备18052140号</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/lightgallery-js/1.2.0/css/lightgallery.min.css><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/valine/1.4.14/Valine.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/autocomplete.js/0.37.1/autocomplete.min.js></script><script type=text/javascript src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/twemoji/12.0.4/twemoji.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/lightgallery-js/1.2.0/js/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/sharer.js/0.4.0/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:20},comment:{valine:{appId:"FtykkqDTKcnmJIc4ulSmbigS-gzGzoHsz",appKey:"eslLDIyTAN1xfmmdbTDgu4to",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!0,highlight:!0,lang:"zh-cn",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://ftykkqdt.lc-cn-n1-shared.com",visitor:!0}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:50,noResultsFound:"没有找到结果",snippetLength:null,type:"algolia"},twemoji:!0}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

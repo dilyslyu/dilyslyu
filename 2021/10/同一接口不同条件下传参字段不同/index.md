@@ -1,0 +1,20 @@
+# 同一接口不同条件下传参字段不同
+
+### 同一接口不同条件下传参字段不同
+
+解决方法：把相同字段封装为一个对象，不同字段封装一个对象，最后组合为一个对象传给接口
+
+```javascript
+const differParams = {
+    "year":{year:this.time},
+    "month":{year:this.time.substring(0,4),endMonth:this.time.substring(4)*1},
+    "quarter":{year:this.time.substring(0,4),quarter:this.time.substring(4)*1}
+}
+const sameParams = {type:this.kind,code:this.code}
+
+const params ={...sameParams,...differParams[this.kind]}
+
+await getList(params)
+
+```
+

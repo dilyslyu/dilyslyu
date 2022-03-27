@@ -1,0 +1,1018 @@
+<!doctype html><html lang><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>axios的封装和api接口的统一管理 - Dilys.Lyu Blog - A Front Programmer.</title><meta name=Description content="这是 Dilys.Lyu 的个人博客。"><meta property="og:title" content="axios的封装和api接口的统一管理"><meta property="og:description" content="一、axios的封装 axios的封装和api接口的统一管理，其实主要目的就是简化代码和利于后期的更新维护。 在vue项目中，和后台交互获取数据"><meta property="og:type" content="article"><meta property="og:url" content="https://www.dilyslyu.com/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/"><meta property="og:image" content="https://www.dilyslyu.com/logo.svg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-09-01T19:26:43+00:00"><meta property="article:modified_time" content="2020-09-01T19:26:43+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://www.dilyslyu.com/logo.svg"><meta name=twitter:title content="axios的封装和api接口的统一管理"><meta name=twitter:description content="一、axios的封装 axios的封装和api接口的统一管理，其实主要目的就是简化代码和利于后期的更新维护。 在vue项目中，和后台交互获取数据"><meta name=application-name content="Dilys.Lyu"><meta name=apple-mobile-web-app-title content="Dilys.Lyu"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://www.dilyslyu.com/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/><link rel=prev href=https://www.dilyslyu.com/2020/07/nginx%E4%BB%A3%E7%90%86/><link rel=next href=https://www.dilyslyu.com/2020/09/%E4%BA%8C%E6%AC%A1%E5%B0%81%E8%A3%85%E6%89%A9%E5%B1%95antd-vue%E4%B8%AD%E6%97%A5%E6%9C%9F%E7%BB%84%E4%BB%B6/><link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.0/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"axios的封装和api接口的统一管理","inLanguage":"","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/www.dilyslyu.com\/2020\/09\/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86\/"},"genre":"posts","wordcount":6534,"url":"https:\/\/www.dilyslyu.com\/2020\/09\/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86\/","datePublished":"2020-09-01T19:26:43+00:00","dateModified":"2020-09-01T19:26:43+00:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Dilys.Lyu"},"author":{"@type":"Person","name":"Dilys.Lyu"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Dilys.Lyu Blog - A Front Programmer."><img class="lazyload logo" src=/svg/loading.min.svg data-src=/jonnyhub-logo.png data-srcset="/jonnyhub-logo.png, /jonnyhub-logo.png 1.5x, /jonnyhub-logo.png 2x" data-sizes=auto alt=/jonnyhub-logo.png title=/jonnyhub-logo.png><span class=header-title-pre> </span>Dilys's Blog</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/ title=所有文章>所有文章 </a><a class=menu-item href=/tags/ title=文章标签>标签 </a><a class=menu-item href=/categories/ title=文章分类>分类 </a><a class=menu-item href=/about title="关于 | About - Hellen's Blog">关于 </a><a class=menu-item href=/bookmark title="书签 | 我的常用书签">书签 </a><a class=menu-item href=https://github.com/dilyslyu title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索本站 id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Dilys.Lyu Blog - A Front Programmer."><img class="lazyload logo" src=/svg/loading.min.svg data-src=/jonnyhub-logo.png data-srcset="/jonnyhub-logo.png, /jonnyhub-logo.png 1.5x, /jonnyhub-logo.png 2x" data-sizes=auto alt=/jonnyhub-logo.png title=/jonnyhub-logo.png><span class=header-title-pre> </span>Dilys's Blog</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索本站 id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title=所有文章>所有文章</a><a class=menu-item href=/tags/ title=文章标签>标签</a><a class=menu-item href=/categories/ title=文章分类>分类</a><a class=menu-item href=/about title="关于 | About - Hellen's Blog">关于</a><a class=menu-item href=/bookmark title="书签 | 我的常用书签">书签</a><a class=menu-item href=https://github.com/dilyslyu title=GitHub rel="noopener noreffer" target=_blank><i class="fab fa-github fa-fw"></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">axios的封装和api接口的统一管理</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/hellenhub title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>Dilys.Lyu</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2020年09月01日>2020年09月01日</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 6534 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 14 分钟&nbsp;<span id=/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/ class=leancloud_visitors data-flag-title=axios的封装和api接口的统一管理>
+<i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#一axios的封装>一、axios的封装</a><ul><li><a href=#安装axios>安装axios</a></li><li><a href=#引入>引入</a></li><li><a href=#环境的切换>环境的切换</a></li><li><a href=#设置请求超时>设置请求超时</a></li><li><a href=#post请求头的设置>post请求头的设置</a></li><li><a href=#请求拦截>请求拦截</a></li><li><a href=#响应的拦截>响应的拦截</a></li><li><a href=#封装get方法和post方法>封装get方法和post方法</a></li></ul></li><li><a href=#二api接口的统一管理>二、api接口的统一管理</a><ul><li><a href=#首先我们在apijs中引入我们封装的get和post方法>首先我们在api.js中引入我们封装的get和post方法</a></li><li><a href=#apijs中这样封装一个post请求>api.js中这样封装一个post请求</a></li></ul></li><li><a href=#完整的axios封装代码>完整的axios封装代码</a></li><li><a href=#优化axios封装>优化axios封装</a></li><li><a href=#api管理优化>api管理优化</a></li></ul></li></ul></nav></div></div><div class=content id=content><h3 id=一axios的封装>一、axios的封装</h3><p>axios的封装和api接口的统一管理，其实主要目的就是简化代码和利于后期的更新维护。
+在vue项目中，和后台交互获取数据这块，我们通常使用的是axios库，它是基于promise的http库，可运行在浏览器端和node.js中。他有很多优秀的特性，例如拦截请求和响应、取消请求、转换json、客户端防御XSRF等。所以我们的尤大大也是果断放弃了对其官方库vue-resource的维护，直接推荐我们使用axios库。</p><h4 id=安装axios>安装axios</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>npm install axios; // 安装axios
+</span></span></code></pre></td></tr></table></div></div><h4 id=引入>引入</h4><p>一般我会在项目的src目录中，新建一个request文件夹，然后在里面新建一个http.js和一个api.js文件。http.js文件用来封装我们的axios，api.js用来统一管理我们的接口。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>// 在http.js中引入axios
+</span></span><span class=line><span class=cl>import axios from &#39;axios&#39;; // 引入axios
+</span></span><span class=line><span class=cl>import QS from &#39;qs&#39;; // 引入qs模块，用来序列化post类型的数据，后面会提到
+</span></span><span class=line><span class=cl>// vant的toast提示框组件，大家可根据自己的ui组件更改。
+</span></span><span class=line><span class=cl>import { Toast } from &#39;vant&#39;; 
+</span></span></code></pre></td></tr></table></div></div><h4 id=环境的切换>环境的切换</h4><p>我们的项目环境可能有开发环境、测试环境和生产环境。我们通过node的环境变量来匹配我们的默认的接口url前缀。axios.defaults.baseURL可以设置axios的默认请求地址就不多说了</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>// 环境的切换
+</span></span><span class=line><span class=cl>if (process.env.NODE_ENV == &#39;development&#39;) {    
+</span></span><span class=line><span class=cl>    axios.defaults.baseURL = &#39;https://www.baidu.com&#39;;} 
+</span></span><span class=line><span class=cl>else if (process.env.NODE_ENV == &#39;debug&#39;) {    
+</span></span><span class=line><span class=cl>    axios.defaults.baseURL = &#39;https://www.ceshi.com&#39;;
+</span></span><span class=line><span class=cl>} 
+</span></span><span class=line><span class=cl>else if (process.env.NODE_ENV == &#39;production&#39;) {    
+</span></span><span class=line><span class=cl>    axios.defaults.baseURL = &#39;https://www.production.com&#39;;
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h4 id=设置请求超时>设置请求超时</h4><p>通过axios.defaults.timeout设置默认的请求超时时间。例如超过了10s，就会告知用户当前请求超时，请刷新等。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>axios.defaults.timeout = 10000;
+</span></span></code></pre></td></tr></table></div></div><h4 id=post请求头的设置>post请求头的设置</h4><p>post请求的时候，我们需要加上一个请求头，所以可以在这里进行一个默认的设置，即设置post的请求头为application/x-www-form-urlencoded;charset=UTF-8</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>axios.defaults.headers.post[&#39;Content-Type&#39;] = &#39;application/x-www-form-urlencoded;charset=UTF-8&#39;;
+</span></span></code></pre></td></tr></table></div></div><h4 id=请求拦截>请求拦截</h4><p>我们在发送请求前可以进行一个请求的拦截，为什么要拦截呢，我们拦截请求是用来做什么的呢？比如，有些请求是需要用户登录之后才能访问的，或者post请求的时候，我们需要序列化我们提交的数据。这时候，我们可以在请求被发送之前进行一个拦截，从而进行我们想要的操作。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>// 先导入vuex,因为我们要使用到里面的状态对象
+</span></span><span class=line><span class=cl>// vuex的路径根据自己的路径去写
+</span></span><span class=line><span class=cl>import store from &#39;@/store/index&#39;;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 请求拦截器axios.interceptors.request.use(    
+</span></span><span class=line><span class=cl>    config =&gt; {        
+</span></span><span class=line><span class=cl>        // 每次发送请求之前判断vuex中是否存在token        
+</span></span><span class=line><span class=cl>        // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
+</span></span><span class=line><span class=cl>        // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断 
+</span></span><span class=line><span class=cl>        const token = store.state.token;        
+</span></span><span class=line><span class=cl>        token &amp;&amp; (config.headers.Authorization = token);        
+</span></span><span class=line><span class=cl>        return config;    
+</span></span><span class=line><span class=cl>    },    
+</span></span><span class=line><span class=cl>    error =&gt; {        
+</span></span><span class=line><span class=cl>        return Promise.error(error);    
+</span></span><span class=line><span class=cl>})
+</span></span></code></pre></td></tr></table></div></div><p>这里说一下token，一般是在登录完成之后，将用户的token通过localStorage或者cookie存在本地，然后用户每次在进入页面的时候（即在main.js中），会首先从本地存储中读取token，如果token存在说明用户已经登陆过，则更新vuex中的token状态。然后，在每次请求接口的时候，都会在请求的header中携带token，后台人员就可以根据你携带的token来判断你的登录是否过期，如果没有携带，则说明没有登录过。</p><h4 id=响应的拦截>响应的拦截</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>// 响应拦截器
+</span></span><span class=line><span class=cl>axios.interceptors.response.use(    
+</span></span><span class=line><span class=cl>    response =&gt; {   
+</span></span><span class=line><span class=cl>        // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
+</span></span><span class=line><span class=cl>        // 否则的话抛出错误
+</span></span><span class=line><span class=cl>        if (response.status === 200) {            
+</span></span><span class=line><span class=cl>            return Promise.resolve(response);        
+</span></span><span class=line><span class=cl>        } else {            
+</span></span><span class=line><span class=cl>            return Promise.reject(response);        
+</span></span><span class=line><span class=cl>        }    
+</span></span><span class=line><span class=cl>    },    
+</span></span><span class=line><span class=cl>    // 服务器状态码不是2开头的的情况
+</span></span><span class=line><span class=cl>    // 这里可以跟你们的后台开发人员协商好统一的错误状态码    
+</span></span><span class=line><span class=cl>    // 然后根据返回的状态码进行一些操作，例如登录过期提示，错误提示等等
+</span></span><span class=line><span class=cl>    // 下面列举几个常见的操作，其他需求可自行扩展
+</span></span><span class=line><span class=cl>    error =&gt; {            
+</span></span><span class=line><span class=cl>        if (error.response.status) {            
+</span></span><span class=line><span class=cl>            switch (error.response.status) {                
+</span></span><span class=line><span class=cl>                // 401: 未登录
+</span></span><span class=line><span class=cl>                // 未登录则跳转登录页面，并携带当前页面的路径
+</span></span><span class=line><span class=cl>                // 在登录成功后返回当前页面，这一步需要在登录页操作。                
+</span></span><span class=line><span class=cl>                case 401:                    
+</span></span><span class=line><span class=cl>                    router.replace({                        
+</span></span><span class=line><span class=cl>                        path: &#39;/login&#39;,                        
+</span></span><span class=line><span class=cl>                        query: { 
+</span></span><span class=line><span class=cl>                            redirect: router.currentRoute.fullPath 
+</span></span><span class=line><span class=cl>                        }
+</span></span><span class=line><span class=cl>                    });
+</span></span><span class=line><span class=cl>                    break;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                // 403 token过期
+</span></span><span class=line><span class=cl>                // 登录过期对用户进行提示
+</span></span><span class=line><span class=cl>                // 清除本地token和清空vuex中token对象
+</span></span><span class=line><span class=cl>                // 跳转登录页面                
+</span></span><span class=line><span class=cl>                case 403:
+</span></span><span class=line><span class=cl>                     Toast({
+</span></span><span class=line><span class=cl>                        message: &#39;登录过期，请重新登录&#39;,
+</span></span><span class=line><span class=cl>                        duration: 1000,
+</span></span><span class=line><span class=cl>                        forbidClick: true
+</span></span><span class=line><span class=cl>                    });
+</span></span><span class=line><span class=cl>                    // 清除token
+</span></span><span class=line><span class=cl>                    localStorage.removeItem(&#39;token&#39;);
+</span></span><span class=line><span class=cl>                    store.commit(&#39;loginSuccess&#39;, null);
+</span></span><span class=line><span class=cl>                    // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面 
+</span></span><span class=line><span class=cl>                    setTimeout(() =&gt; {                        
+</span></span><span class=line><span class=cl>                        router.replace({                            
+</span></span><span class=line><span class=cl>                            path: &#39;/login&#39;,                            
+</span></span><span class=line><span class=cl>                            query: { 
+</span></span><span class=line><span class=cl>                                redirect: router.currentRoute.fullPath 
+</span></span><span class=line><span class=cl>                            }                        
+</span></span><span class=line><span class=cl>                        });                    
+</span></span><span class=line><span class=cl>                    }, 1000);                    
+</span></span><span class=line><span class=cl>                    break; 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                // 404请求不存在
+</span></span><span class=line><span class=cl>                case 404:
+</span></span><span class=line><span class=cl>                    Toast({
+</span></span><span class=line><span class=cl>                        message: &#39;网络请求不存在&#39;,
+</span></span><span class=line><span class=cl>                        duration: 1500,
+</span></span><span class=line><span class=cl>                        forbidClick: true
+</span></span><span class=line><span class=cl>                    });
+</span></span><span class=line><span class=cl>                    break;
+</span></span><span class=line><span class=cl>                // 其他错误，直接抛出错误提示
+</span></span><span class=line><span class=cl>                default:
+</span></span><span class=line><span class=cl>                    Toast({
+</span></span><span class=line><span class=cl>                        message: error.response.data.message,
+</span></span><span class=line><span class=cl>                        duration: 1500,
+</span></span><span class=line><span class=cl>                        forbidClick: true
+</span></span><span class=line><span class=cl>                    });
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>            return Promise.reject(error.response);
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>    }    
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div><p>响应拦截器很好理解，就是服务器返回给我们的数据，我们在拿到之前可以对他进行一些处理。例如上面的思想：如果后台返回的状态码是200，则正常返回数据，否则的根据错误的状态码类型进行一些我们需要的错误，其实这里主要就是进行了错误的统一处理和没登录或登录过期后调整登录页的一个操作</p><h4 id=封装get方法和post方法>封装get方法和post方法</h4><ul><li>get方法：我们通过定义一个get函数，get函数有两个参数，第一个参数表示我们要请求的url地址，第二个参数是我们要携带的请求参数。get函数返回一个promise对象，当axios其请求成功时resolve服务器返回 值，请求失败时reject错误值。最后通过export抛出get函数。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/**
+</span></span><span class=line><span class=cl> * get方法，对应get请求
+</span></span><span class=line><span class=cl> * @param {String} url [请求的url地址]
+</span></span><span class=line><span class=cl> * @param {Object} params [请求时携带的参数]
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>export function get(url, params){    
+</span></span><span class=line><span class=cl>    return new Promise((resolve, reject) =&gt;{        
+</span></span><span class=line><span class=cl>        axios.get(url, {            
+</span></span><span class=line><span class=cl>            params: params        
+</span></span><span class=line><span class=cl>        }).then(res =&gt; {
+</span></span><span class=line><span class=cl>            resolve(res.data);
+</span></span><span class=line><span class=cl>        }).catch(err =&gt;{
+</span></span><span class=line><span class=cl>            reject(err.data)        
+</span></span><span class=line><span class=cl>    })    
+</span></span><span class=line><span class=cl>});}
+</span></span></code></pre></td></tr></table></div></div><ul><li>post方法：原理同get基本一样，但是要注意的是，post方法必须要使用对提交从参数对象进行序列化的操作，所以这里我们通过node的qs模块来序列化我们的参数。这个很重要，如果没有序列化操作，后台是拿不到你提交的数据的。这就是文章开头我们import QS from &lsquo;qs&rsquo;;的原因。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/** 
+</span></span><span class=line><span class=cl> * post方法，对应post请求 
+</span></span><span class=line><span class=cl> * @param {String} url [请求的url地址] 
+</span></span><span class=line><span class=cl> * @param {Object} params [请求时携带的参数] 
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>export function post(url, params) {
+</span></span><span class=line><span class=cl>    return new Promise((resolve, reject) =&gt; {
+</span></span><span class=line><span class=cl>         axios.post(url, QS.stringify(params))
+</span></span><span class=line><span class=cl>        .then(res =&gt; {
+</span></span><span class=line><span class=cl>            resolve(res.data);
+</span></span><span class=line><span class=cl>        })
+</span></span><span class=line><span class=cl>        .catch(err =&gt;{
+</span></span><span class=line><span class=cl>            reject(err.data)
+</span></span><span class=line><span class=cl>        })
+</span></span><span class=line><span class=cl>    });
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>这里有个小细节说下，axios.get()方法和axios.post()在提交数据时参数的书写方式还是有区别的。区别就是，get的第二个参数是一个{}，然后这个对象的params属性值是一个参数对象的。而post的第二个参数就是一个参数对象。</p><h3 id=二api接口的统一管理>二、api接口的统一管理</h3><h4 id=首先我们在apijs中引入我们封装的get和post方法>首先我们在api.js中引入我们封装的get和post方法</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/**   
+</span></span><span class=line><span class=cl> * api接口统一管理
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>import { get, post } from &#39;./http&#39;
+</span></span></code></pre></td></tr></table></div></div><h4 id=apijs中这样封装一个post请求>api.js中这样封装一个post请求</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>export const apiAddress = p =&gt; post(&#39;api/v1/users/my_address/address_edit_before&#39;, p);
+</span></span></code></pre></td></tr></table></div></div><p>我们定义了一个apiAddress方法，这个方法有一个参数p，p是我们请求接口时携带的参数对象。而后调用了我们封装的post方法，post方法的第一个参数是我们的接口地址，第二个参数是apiAddress的p参数，即请求接口时携带的参数对象。最后通过export导出apiAddress。</p><p>然后在我们的页面中可以这样调用我们的api接口：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>import { apiAddress } from &#39;@/request/api&#39;;// 导入我们的api接口
+</span></span><span class=line><span class=cl>export default {        
+</span></span><span class=line><span class=cl>    name: &#39;Address&#39;,    
+</span></span><span class=line><span class=cl>    created () {
+</span></span><span class=line><span class=cl>        this.onLoad();
+</span></span><span class=line><span class=cl>    },
+</span></span><span class=line><span class=cl>    methods: {            
+</span></span><span class=line><span class=cl>        // 获取数据            
+</span></span><span class=line><span class=cl>        onLoad() {
+</span></span><span class=line><span class=cl>            // 调用api接口，并且提供了两个参数                
+</span></span><span class=line><span class=cl>            apiAddress({                    
+</span></span><span class=line><span class=cl>                type: 0,                    
+</span></span><span class=line><span class=cl>                sort: 1                
+</span></span><span class=line><span class=cl>            }).then(res =&gt; {
+</span></span><span class=line><span class=cl>                // 获取数据成功后的其他操作
+</span></span><span class=line><span class=cl>                ………………                
+</span></span><span class=line><span class=cl>            })            
+</span></span><span class=line><span class=cl>        }        
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>api接口管理的一个好处就是，我们把api统一集中起来，如果后期需要修改接口，我们就直接在api.js中找到对应的修改就好了，而不用去每一个页面查找我们的接口然后再修改会很麻烦。</p><h3 id=完整的axios封装代码>完整的axios封装代码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/**axios封装
+</span></span><span class=line><span class=cl> * 请求拦截、相应拦截、错误统一处理
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>import axios from &#39;axios&#39;;import QS from &#39;qs&#39;;
+</span></span><span class=line><span class=cl>import { Toast } from &#39;vant&#39;;
+</span></span><span class=line><span class=cl>import store from &#39;../store/index&#39;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 环境的切换
+</span></span><span class=line><span class=cl>if (process.env.NODE_ENV == &#39;development&#39;) {    
+</span></span><span class=line><span class=cl>    axios.defaults.baseURL = &#39;/api&#39;;
+</span></span><span class=line><span class=cl>} else if (process.env.NODE_ENV == &#39;debug&#39;) {    
+</span></span><span class=line><span class=cl>    axios.defaults.baseURL = &#39;&#39;;
+</span></span><span class=line><span class=cl>} else if (process.env.NODE_ENV == &#39;production&#39;) {    
+</span></span><span class=line><span class=cl>    axios.defaults.baseURL = &#39;http://api.123dailu.com/&#39;;
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 请求超时时间
+</span></span><span class=line><span class=cl>axios.defaults.timeout = 10000;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// post请求头
+</span></span><span class=line><span class=cl>axios.defaults.headers.post[&#39;Content-Type&#39;] = &#39;application/x-www-form-urlencoded;charset=UTF-8&#39;;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 请求拦截器
+</span></span><span class=line><span class=cl>axios.interceptors.request.use(    
+</span></span><span class=line><span class=cl>    config =&gt; {
+</span></span><span class=line><span class=cl>        // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加了
+</span></span><span class=line><span class=cl>        // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
+</span></span><span class=line><span class=cl>        const token = store.state.token;        
+</span></span><span class=line><span class=cl>        token &amp;&amp; (config.headers.Authorization = token);        
+</span></span><span class=line><span class=cl>        return config;    
+</span></span><span class=line><span class=cl>    },    
+</span></span><span class=line><span class=cl>    error =&gt; {        
+</span></span><span class=line><span class=cl>        return Promise.error(error);    
+</span></span><span class=line><span class=cl>    })
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 响应拦截器
+</span></span><span class=line><span class=cl>axios.interceptors.response.use(    
+</span></span><span class=line><span class=cl>    response =&gt; {        
+</span></span><span class=line><span class=cl>        if (response.status === 200) {            
+</span></span><span class=line><span class=cl>            return Promise.resolve(response);        
+</span></span><span class=line><span class=cl>        } else {            
+</span></span><span class=line><span class=cl>            return Promise.reject(response);        
+</span></span><span class=line><span class=cl>        }    
+</span></span><span class=line><span class=cl>    },
+</span></span><span class=line><span class=cl>    // 服务器状态码不是200的情况    
+</span></span><span class=line><span class=cl>    error =&gt; {        
+</span></span><span class=line><span class=cl>        if (error.response.status) {            
+</span></span><span class=line><span class=cl>            switch (error.response.status) {                
+</span></span><span class=line><span class=cl>                // 401: 未登录                
+</span></span><span class=line><span class=cl>                // 未登录则跳转登录页面，并携带当前页面的路径                
+</span></span><span class=line><span class=cl>                // 在登录成功后返回当前页面，这一步需要在登录页操作。                
+</span></span><span class=line><span class=cl>                case 401:                    
+</span></span><span class=line><span class=cl>                    router.replace({                        
+</span></span><span class=line><span class=cl>                        path: &#39;/login&#39;,                        
+</span></span><span class=line><span class=cl>                        query: { redirect: router.currentRoute.fullPath } 
+</span></span><span class=line><span class=cl>                    });
+</span></span><span class=line><span class=cl>                    break;
+</span></span><span class=line><span class=cl>                // 403 token过期                
+</span></span><span class=line><span class=cl>                // 登录过期对用户进行提示                
+</span></span><span class=line><span class=cl>                // 清除本地token和清空vuex中token对象                
+</span></span><span class=line><span class=cl>                // 跳转登录页面                
+</span></span><span class=line><span class=cl>                case 403:                     
+</span></span><span class=line><span class=cl>                    Toast({                        
+</span></span><span class=line><span class=cl>                        message: &#39;登录过期，请重新登录&#39;,                        
+</span></span><span class=line><span class=cl>                        duration: 1000,                        
+</span></span><span class=line><span class=cl>                        forbidClick: true                    
+</span></span><span class=line><span class=cl>                    });                    
+</span></span><span class=line><span class=cl>                    // 清除token                    
+</span></span><span class=line><span class=cl>                    localStorage.removeItem(&#39;token&#39;);                    
+</span></span><span class=line><span class=cl>                    store.commit(&#39;loginSuccess&#39;, null);                    
+</span></span><span class=line><span class=cl>                    // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
+</span></span><span class=line><span class=cl>                    setTimeout(() =&gt; {                        
+</span></span><span class=line><span class=cl>                        router.replace({                            
+</span></span><span class=line><span class=cl>                            path: &#39;/login&#39;,                            
+</span></span><span class=line><span class=cl>                            query: { 
+</span></span><span class=line><span class=cl>                                redirect: router.currentRoute.fullPath 
+</span></span><span class=line><span class=cl>                            }                        
+</span></span><span class=line><span class=cl>                        });                    
+</span></span><span class=line><span class=cl>                    }, 1000);                    
+</span></span><span class=line><span class=cl>                    break; 
+</span></span><span class=line><span class=cl>                // 404请求不存在                
+</span></span><span class=line><span class=cl>                case 404:                    
+</span></span><span class=line><span class=cl>                    Toast({                        
+</span></span><span class=line><span class=cl>                        message: &#39;网络请求不存在&#39;,                        
+</span></span><span class=line><span class=cl>                        duration: 1500,                        
+</span></span><span class=line><span class=cl>                        forbidClick: true                    
+</span></span><span class=line><span class=cl>                    });                    
+</span></span><span class=line><span class=cl>                break;                
+</span></span><span class=line><span class=cl>                // 其他错误，直接抛出错误提示                
+</span></span><span class=line><span class=cl>                default:                    
+</span></span><span class=line><span class=cl>                    Toast({                        
+</span></span><span class=line><span class=cl>                        message: error.response.data.message,                        
+</span></span><span class=line><span class=cl>                        duration: 1500,                        
+</span></span><span class=line><span class=cl>                        forbidClick: true                    
+</span></span><span class=line><span class=cl>                    });            
+</span></span><span class=line><span class=cl>            }            
+</span></span><span class=line><span class=cl>            return Promise.reject(error.response);        
+</span></span><span class=line><span class=cl>        }       
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>);
+</span></span><span class=line><span class=cl>/** 
+</span></span><span class=line><span class=cl> * get方法，对应get请求 
+</span></span><span class=line><span class=cl> * @param {String} url [请求的url地址] 
+</span></span><span class=line><span class=cl> * @param {Object} params [请求时携带的参数] 
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>export function get(url, params){    
+</span></span><span class=line><span class=cl>    return new Promise((resolve, reject) =&gt;{        
+</span></span><span class=line><span class=cl>        axios.get(url, {            
+</span></span><span class=line><span class=cl>            params: params        
+</span></span><span class=line><span class=cl>        })        
+</span></span><span class=line><span class=cl>        .then(res =&gt; {            
+</span></span><span class=line><span class=cl>            resolve(res.data);        
+</span></span><span class=line><span class=cl>        })        
+</span></span><span class=line><span class=cl>        .catch(err =&gt; {            
+</span></span><span class=line><span class=cl>            reject(err.data)        
+</span></span><span class=line><span class=cl>        })    
+</span></span><span class=line><span class=cl>    });
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>/** 
+</span></span><span class=line><span class=cl> * post方法，对应post请求 
+</span></span><span class=line><span class=cl> * @param {String} url [请求的url地址] 
+</span></span><span class=line><span class=cl> * @param {Object} params [请求时携带的参数] 
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>export function post(url, params) {    
+</span></span><span class=line><span class=cl>    return new Promise((resolve, reject) =&gt; {         
+</span></span><span class=line><span class=cl>        axios.post(url, QS.stringify(params))        
+</span></span><span class=line><span class=cl>        .then(res =&gt; {            
+</span></span><span class=line><span class=cl>            resolve(res.data);        
+</span></span><span class=line><span class=cl>        })        
+</span></span><span class=line><span class=cl>        .catch(err =&gt; {            
+</span></span><span class=line><span class=cl>            reject(err.data)        
+</span></span><span class=line><span class=cl>        })    
+</span></span><span class=line><span class=cl>    });
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h3 id=优化axios封装>优化axios封装</h3><ol><li>优化axios封装，去掉之前的get和post</li><li>断网情况处理</li><li>更加模块化的api管理</li><li>接口域名有多个的情况</li><li>api挂载到vue.prototype上省去引入的步骤</li></ol><p>http.js中axios封装的优化，先直接贴代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/**
+</span></span><span class=line><span class=cl> * axios封装
+</span></span><span class=line><span class=cl> * 请求拦截、响应拦截、错误统一处理
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>import axios from &#39;axios&#39;;
+</span></span><span class=line><span class=cl>import router from &#39;../router&#39;;
+</span></span><span class=line><span class=cl>import store from &#39;../store/index&#39;;
+</span></span><span class=line><span class=cl>import { Toast } from &#39;vant&#39;;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/** 
+</span></span><span class=line><span class=cl> * 提示函数 
+</span></span><span class=line><span class=cl> * 禁止点击蒙层、显示一秒后关闭
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>const tip = msg =&gt; {    
+</span></span><span class=line><span class=cl>    Toast({        
+</span></span><span class=line><span class=cl>        message: msg,        
+</span></span><span class=line><span class=cl>        duration: 1000,        
+</span></span><span class=line><span class=cl>        forbidClick: true    
+</span></span><span class=line><span class=cl>    });
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/** 
+</span></span><span class=line><span class=cl> * 跳转登录页
+</span></span><span class=line><span class=cl> * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>const toLogin = () =&gt; {
+</span></span><span class=line><span class=cl>    router.replace({
+</span></span><span class=line><span class=cl>        path: &#39;/login&#39;,        
+</span></span><span class=line><span class=cl>        query: {
+</span></span><span class=line><span class=cl>            redirect: router.currentRoute.fullPath
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>    });
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/** 
+</span></span><span class=line><span class=cl> * 请求失败后的错误统一处理 
+</span></span><span class=line><span class=cl> * @param {Number} status 请求失败的状态码
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>const errorHandle = (status, other) =&gt; {
+</span></span><span class=line><span class=cl>    // 状态码判断
+</span></span><span class=line><span class=cl>    switch (status) {
+</span></span><span class=line><span class=cl>        // 401: 未登录状态，跳转登录页
+</span></span><span class=line><span class=cl>        case 401:
+</span></span><span class=line><span class=cl>            toLogin();
+</span></span><span class=line><span class=cl>            break;
+</span></span><span class=line><span class=cl>        // 403 token过期
+</span></span><span class=line><span class=cl>        // 清除token并跳转登录页
+</span></span><span class=line><span class=cl>        case 403:
+</span></span><span class=line><span class=cl>            tip(&#39;登录过期，请重新登录&#39;);
+</span></span><span class=line><span class=cl>            localStorage.removeItem(&#39;token&#39;);
+</span></span><span class=line><span class=cl>            store.commit(&#39;loginSuccess&#39;, null);
+</span></span><span class=line><span class=cl>            setTimeout(() =&gt; {
+</span></span><span class=line><span class=cl>                toLogin();
+</span></span><span class=line><span class=cl>            }, 1000);
+</span></span><span class=line><span class=cl>            break;
+</span></span><span class=line><span class=cl>        // 404请求不存在
+</span></span><span class=line><span class=cl>        case 404:
+</span></span><span class=line><span class=cl>            tip(&#39;请求的资源不存在&#39;); 
+</span></span><span class=line><span class=cl>            break;
+</span></span><span class=line><span class=cl>        default:
+</span></span><span class=line><span class=cl>            console.log(other);   
+</span></span><span class=line><span class=cl>        }}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 创建axios实例
+</span></span><span class=line><span class=cl>var instance = axios.create({    timeout: 1000 * 12});
+</span></span><span class=line><span class=cl>// 设置post请求头
+</span></span><span class=line><span class=cl>instance.defaults.headers.post[&#39;Content-Type&#39;] = &#39;application/x-www-form-urlencoded&#39;;
+</span></span><span class=line><span class=cl>/** 
+</span></span><span class=line><span class=cl> * 请求拦截器 
+</span></span><span class=line><span class=cl> * 每次请求前，如果存在token则在请求头中携带token 
+</span></span><span class=line><span class=cl> */ 
+</span></span><span class=line><span class=cl>instance.interceptors.request.use(    
+</span></span><span class=line><span class=cl>    config =&gt; {        
+</span></span><span class=line><span class=cl>        // 登录流程控制中，根据本地是否存在token判断用户的登录情况        
+</span></span><span class=line><span class=cl>        // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token        
+</span></span><span class=line><span class=cl>        // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码        
+</span></span><span class=line><span class=cl>        // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。        
+</span></span><span class=line><span class=cl>        const token = store.state.token;        
+</span></span><span class=line><span class=cl>        token &amp;&amp; (config.headers.Authorization = token);        
+</span></span><span class=line><span class=cl>        return config;    
+</span></span><span class=line><span class=cl>    },    
+</span></span><span class=line><span class=cl>    error =&gt; Promise.error(error))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 响应拦截器
+</span></span><span class=line><span class=cl>instance.interceptors.response.use(    
+</span></span><span class=line><span class=cl>    // 请求成功
+</span></span><span class=line><span class=cl>    res =&gt; res.status === 200 ? Promise.resolve(res) : Promise.reject(res),    
+</span></span><span class=line><span class=cl>    // 请求失败
+</span></span><span class=line><span class=cl>    error =&gt; {
+</span></span><span class=line><span class=cl>        const { response } = error;
+</span></span><span class=line><span class=cl>        if (response) {
+</span></span><span class=line><span class=cl>            // 请求已发出，但是不在2xx的范围 
+</span></span><span class=line><span class=cl>            errorHandle(response.status, response.data.message);
+</span></span><span class=line><span class=cl>            return Promise.reject(response);
+</span></span><span class=line><span class=cl>        } else {
+</span></span><span class=line><span class=cl>            // 处理断网的情况
+</span></span><span class=line><span class=cl>            // eg:请求超时或断网时，更新state的network状态
+</span></span><span class=line><span class=cl>            // network状态在app.vue中控制着一个全局的断网提示组件的显示隐藏
+</span></span><span class=line><span class=cl>            // 关于断网组件中的刷新重新获取数据，会在断网组件中说明
+</span></span><span class=line><span class=cl>            if (!window.navigator.onLine) {
+</span></span><span class=line><span class=cl>               store.commit(&#39;changeNetwork&#39;, false);
+</span></span><span class=line><span class=cl>            } else {
+</span></span><span class=line><span class=cl>                return Promise.reject(error);
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>    });
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>export default instance;
+</span></span></code></pre></td></tr></table></div></div><p>这个axios和之前的大同小异，做了如下几点改变：</p><ol><li>去掉了之前get和post方法的封装，通过创建一个axios实例然后export default方法导出，这样使用起来更灵活一些。</li><li>去掉了通过环境变量控制baseUrl的值。考虑到接口会有多个不同域名的情况，所以准备通过js变量来控制接口域名。这点具体在api里会介绍。</li><li>增加了请求超时，即断网状态的处理。说下思路，当断网时，通过更新vuex中network的状态来控制断网提示组件的显示隐藏。断网提示一般会有重新加载数据的操作，这步会在后面对应的地方介绍。</li><li>公用函数进行抽出，简化代码，尽量保证单一职责原则。</li></ol><h3 id=api管理优化>api管理优化</h3><ol><li><p>更加模块化</p></li><li><p>更方便多人开发，有效减少解决命名冲突</p></li><li><p>处理接口域名有多个情况</p></li></ol><p>新建了一个api文件夹，里面有一个index.js和一个base.js，以及多个根据模块划分的接口js文件。index.js是一个api的出口，base.js管理接口域名，其他js则用来管理各个模块的接口。</p><p>先放index.js代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/** 
+</span></span><span class=line><span class=cl> * api接口的统一出口
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>// 文章模块接口
+</span></span><span class=line><span class=cl>import article from &#39;@/api/article&#39;;
+</span></span><span class=line><span class=cl>// 其他模块的接口……
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 导出接口
+</span></span><span class=line><span class=cl>export default {    
+</span></span><span class=line><span class=cl>    article,
+</span></span><span class=line><span class=cl>    // ……
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>index.js是一个api接口的出口，这样就可以把api接口根据功能划分为多个模块，利于多人协作开发，比如一个人只负责一个模块的开发等，还能方便每个模块中接口的命名哦。
+base.js:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/**
+</span></span><span class=line><span class=cl> * 接口域名的管理
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>const base = {    
+</span></span><span class=line><span class=cl>    sq: &#39;https://xxxx111111.com/api/v1&#39;,    
+</span></span><span class=line><span class=cl>    bd: &#39;http://xxxxx22222.com/api&#39;
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>export default base;
+</span></span></code></pre></td></tr></table></div></div><p>通过base.js来管理我们的接口域名，不管有多少个都可以通过这里进行接口的定义。即使修改起来，也是很方便的。</p><p>最后就是接口模块的说明，例如上面的article.js:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>/**
+</span></span><span class=line><span class=cl> * article模块接口列表
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>import base from &#39;./base&#39;; // 导入接口域名列表
+</span></span><span class=line><span class=cl>import axios from &#39;@/utils/http&#39;; // 导入http中创建的axios实例
+</span></span><span class=line><span class=cl>import qs from &#39;qs&#39;; // 根据需求是否导入qs模块
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>const article = {    
+</span></span><span class=line><span class=cl>    // 新闻列表    
+</span></span><span class=line><span class=cl>    articleList () {        
+</span></span><span class=line><span class=cl>        return axios.get(`${base.sq}/topics`);    
+</span></span><span class=line><span class=cl>    },    
+</span></span><span class=line><span class=cl>    // 新闻详情,演示    
+</span></span><span class=line><span class=cl>    articleDetail (id, params) {        
+</span></span><span class=line><span class=cl>        return axios.get(`${base.sq}/topic/${id}`, {            
+</span></span><span class=line><span class=cl>            params: params        
+</span></span><span class=line><span class=cl>        });    
+</span></span><span class=line><span class=cl>    },
+</span></span><span class=line><span class=cl>    // post提交    
+</span></span><span class=line><span class=cl>    login (params) {        
+</span></span><span class=line><span class=cl>        return axios.post(`${base.sq}/accesstoken`, qs.stringify(params));    
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>    // 其他接口…………
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>export default article;
+</span></span></code></pre></td></tr></table></div></div><ol><li>通过直接引入我们封装好的axios实例，然后定义接口、调用axios实例并返回，可以更灵活的使用axios，比如你可以对post请求时提交的数据进行一个qs序列化的处理等。</li><li>请求的配置更灵活，你可以针对某个需求进行一个不同的配置。关于配置的优先级，axios文档说的很清楚，这个顺序是：在 lib/defaults.js 找到的库的默认值，然后是实例的 defaults 属性，最后是请求的 config 参数。后者将优先于前者。</li><li>restful风格的接口，也可以通过这种方式灵活的设置api接口地址。</li></ol><p>最后，为了方便api的调用，我们需要将其挂载到vue的原型上。在main.js中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>import Vue from &#39;vue&#39;
+</span></span><span class=line><span class=cl>import App from &#39;./App&#39;
+</span></span><span class=line><span class=cl>import router from &#39;./router&#39; // 导入路由文件
+</span></span><span class=line><span class=cl>import store from &#39;./store&#39; // 导入vuex文件
+</span></span><span class=line><span class=cl>import api from &#39;./api&#39; // 导入api接口
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Vue.prototype.$api = api; // 将api挂载到vue的原型上
+</span></span></code></pre></td></tr></table></div></div><p>然后我们可以在页面中这样调用接口，eg：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>methods: {    
+</span></span><span class=line><span class=cl>    onLoad(id) {      
+</span></span><span class=line><span class=cl>        this.$api.article.articleDetail(id, {        
+</span></span><span class=line><span class=cl>            api: 123      
+</span></span><span class=line><span class=cl>        }).then(res=&gt; {
+</span></span><span class=line><span class=cl>            // 执行某些操作      
+</span></span><span class=line><span class=cl>        })    
+</span></span><span class=line><span class=cl>    }  
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>再提一下断网的处理，这里只做一个简单的示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;template&gt;  
+</span></span><span class=line><span class=cl>    &lt;div id=&#34;app&#34;&gt;    
+</span></span><span class=line><span class=cl>        &lt;div v-if=&#34;!network&#34;&gt;      
+</span></span><span class=line><span class=cl>            &lt;h3&gt;我没网了&lt;/h3&gt;      
+</span></span><span class=line><span class=cl>            &lt;div @click=&#34;onRefresh&#34;&gt;刷新&lt;/div&gt;      
+</span></span><span class=line><span class=cl>        &lt;/div&gt;    
+</span></span><span class=line><span class=cl>        &lt;router-view/&gt;      
+</span></span><span class=line><span class=cl>    &lt;/div&gt;
+</span></span><span class=line><span class=cl>&lt;/template&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&lt;script&gt;
+</span></span><span class=line><span class=cl>    import { mapState } from &#39;vuex&#39;;
+</span></span><span class=line><span class=cl>    export default {  
+</span></span><span class=line><span class=cl>        name: &#39;App&#39;,  
+</span></span><span class=line><span class=cl>        computed: {    
+</span></span><span class=line><span class=cl>            ...mapState([&#39;network&#39;])  
+</span></span><span class=line><span class=cl>        },  
+</span></span><span class=line><span class=cl>        methods: {    
+</span></span><span class=line><span class=cl>            // 通过跳转一个空页面再返回的方式来实现刷新当前页面数据的目的
+</span></span><span class=line><span class=cl>            onRefresh () {      
+</span></span><span class=line><span class=cl>                this.$router.replace(&#39;/refresh&#39;)    
+</span></span><span class=line><span class=cl>            }  
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>&lt;/script&gt;
+</span></span></code></pre></td></tr></table></div></div><p>这是app.vue，这里简单演示一下断网。在http.js中介绍了，我们会在断网的时候，来更新vue中network的状态，那么这里我们根据network的状态来判断是否需要加载这个断网组件。断网情况下，加载断网组件，不加载对应页面的组件。当点击刷新的时候，我们通过跳转refesh页面然后立即返回的方式来实现重新获取数据的操作。因此我们需要新建一个refresh.vue页面，并在其beforeRouteEnter钩子中再返回当前页面。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>// refresh.vue
+</span></span><span class=line><span class=cl>beforeRouteEnter (to, from, next) {
+</span></span><span class=line><span class=cl>    next(vm =&gt; {            
+</span></span><span class=line><span class=cl>        vm.$router.replace(from.fullPath)        
+</span></span><span class=line><span class=cl>    })    
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>这是一种全局通用的断网提示，当然了，也可以根据自己的项目需求操作。</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2020年09月01日</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://www.dilyslyu.com/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/ data-title=axios的封装和api接口的统一管理><i class="fab fa-twitter fa-fw"></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://www.dilyslyu.com/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/><i class="fab fa-facebook-square fa-fw"></i></a><a href=javascript:void(0); title="分享到 WhatsApp" data-sharer=whatsapp data-url=https://www.dilyslyu.com/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/ data-title=axios的封装和api接口的统一管理 data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://www.dilyslyu.com/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/ data-title=axios的封装和api接口的统一管理 data-ralateuid=jonnychang><i class="fab fa-weibo fa-fw"></i></a><a href=javascript:void(0); title="分享到 Evernote" data-sharer=evernote data-url=https://www.dilyslyu.com/2020/09/axios%E7%9A%84%E5%B0%81%E8%A3%85%E5%92%8Capi%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86/ data-title=axios的封装和api接口的统一管理><i class="fab fa-evernote fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2020/07/nginx%E4%BB%A3%E7%90%86/ class=prev rel=prev title=nginx代理><i class="fas fa-angle-left fa-fw"></i>nginx代理</a>
+<a href=/2020/09/%E4%BA%8C%E6%AC%A1%E5%B0%81%E8%A3%85%E6%89%A9%E5%B1%95antd-vue%E4%B8%AD%E6%97%A5%E6%9C%9F%E7%BB%84%E4%BB%B6/ class=next rel=next title=二次封装扩展antd-vue中日期组件>二次封装扩展antd-vue中日期组件<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2015 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/hellenhub target=_blank>Dilys.Lyu</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=http://beian.miit.gov.cn/ ; target=_blank>浙ICP备18052140号</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/lightgallery-js/1.2.0/css/lightgallery.min.css><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/valine/1.4.14/Valine.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/autocomplete.js/0.37.1/autocomplete.min.js></script><script type=text/javascript src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/twemoji/12.0.4/twemoji.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/lightgallery-js/1.2.0/js/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.min.js></script><script type=text/javascript src=https://cdn.bootcdn.net/ajax/libs/sharer.js/0.4.0/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:20},comment:{valine:{appId:"FtykkqDTKcnmJIc4ulSmbigS-gzGzoHsz",appKey:"eslLDIyTAN1xfmmdbTDgu4to",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!0,highlight:!0,lang:"zh-cn",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://ftykkqdt.lc-cn-n1-shared.com",visitor:!0}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:50,noResultsFound:"没有找到结果",snippetLength:null,type:"algolia"},twemoji:!0}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

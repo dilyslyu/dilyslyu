@@ -1,0 +1,31 @@
+# 自定义删除弹框
+
+### 基于 Popover 的属性实现弹框
+
+Popover 的嵌套操作，这相比 Dialog 更为轻量
+
+```html
+<el-popover
+  placement="top"
+  width="160"
+  v-model="visible">
+  <p>是否确定删除？</p>
+  <div style="text-align: right; margin: 0">
+    <el-button size="mini" type="text" @click="visible = false">我再想想</el-button>
+    <el-button type="primary" size="mini" @click="visible = false">删除</el-button>
+  </div>
+  <el-button slot="reference">删除</el-button>
+</el-popover>
+
+<script>
+  export default {
+    data() {
+      return {
+        visible: false,
+      };
+    }
+  }
+</script>
+
+```
+

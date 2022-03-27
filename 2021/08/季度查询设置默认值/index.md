@@ -1,0 +1,163 @@
+# 季度查询设置默认值
+
+```html
+<template>
+<div>
+    <!--背景-点击可关闭卡片-->
+    <mark
+    v-if="showSeason"
+    class="bgCard"
+    @click.stop="showSeason=false"
+    ></mark>
+    <!-- 显示的内容 -->
+    <el-input v-model="showValue" placeholder="请选择季度" clearable class="quarter-input" @clear="clearClick" @focus="onFousInputView">
+        <i slot="prefix"
+        class="el-input_icon el-icon-date"></i>
+    </el-input>
+    <!-- 卡片显示内容 -->
+    <el-card>
+        <div slot="header" class="clearfix" style="text-align:center;padding:0">
+            <button type= "button" aria-label="前一年" class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left" @click="prevSub" ></button>
+            <span role="button" class="el-date-picker__header-label">{{year}}年</span>
+            <button type="button" aria-label="后一年" class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right" @click="nextAdd"></button>
+        </div>
+        <!-- 季度选择项 -->
+        <div class="quarter-block">
+            <div class="text-item">
+                <el-button type="text" size="medium" :class="['common-quarter' ,'quarter-one' ,activeQuarter==='1'?'is-active':'']" @click="selectSeason('1')">第1季度</el-button>
+                <el-button type="text" size="medium" :class="['common-quarter' ,'quarter-two' ,activeQuarter==='2'?'is-active':'']" @click="selectSeason('2')">第2季度</el-button>
+            </div>
+            <div class="text-item">
+                <el-button type="text" size="medium" :class="['common-quarter' ,'quarter-three' ,activeQuarter==='3'?'is-active':'']" @click="selectSeason('3')">第3季度</el-button>
+                <el-button type="text" size="medium" :class="['common-quarter' ,'quarter-four' ,activeQuarter==='4'?'is-active':'']" @click="selectSeason('4')">第4季度</el-button>
+            </div>
+        </div>
+    </el-card>
+</div>
+</template>
+<script>
+/**
+*@file: View 组件 季节选择控件
+*@date: 2021-03-22
+*@description: UI组件 可选择季度
+*/
+export default {
+    name: 'QuarterSelect',
+    props: {
+        showValue: {//页面上input的内容
+            type:String,
+            default:()=>''
+        }
+    },
+    data(){
+        return{
+            showSeason:false,//弹框显示
+            year:'',//默认当前年
+            // showValue:'',//页面上input的内容
+            activeQuarter:''//选项激活
+        }
+    },
+    watch:{},
+    created(){},
+    methods:{
+        onFousInputView(){//聚焦函数-触发显示
+            if(!this.year){
+                this.year=new Date().getFullYear().toString()
+            }
+            this.showSeason=true
+        },
+        prevSub(){//上一年
+            this.year=+this.year-1
+        },
+        nextAdd(){//下一年
+            this.year=+this.year+1
+        },
+        selectSeason(quarter){//选择季度
+            this.activeQuarter=quarter
+            const result = {
+                reportTime:`${this.year}${quarter}`,
+                date:`${this.year}-${quarter}`,
+                year:this.year,
+                quarter:quarter
+            }
+            this.showSeason=false
+            this.showValue=`${this.year}年${quarter}季度`
+            this.$emit('getQuarterValue',result)
+        },
+        clearClick(){
+            const result={reportTime:'',date:'',year:'',quarter:''}
+            this.showValue=''
+            this.activeQuarter=''
+            this.$emit('getQuarterValuye',result)
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+.bgCard{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background:rgba(0,0,0,0);
+    z-index:999;
+}
+.quater-input{
+    width:220px;
+}
+::v-deep.box-card{
+    width:220px;
+    padding:0 3px 10px;
+    margin-top:10px;
+    position:fixed;
+    z-index:999;
+}
+.el-card__header{
+    padding:13px;
+}
+.el-card__body{
+    padding:13px;
+}
+.quarter-block{
+    display:flex;
+    flex-direction:colum;
+    .text-item{
+        display:flex;
+        justify-content:space-around;
+    }
+}
+.common-quarter{
+    width:40%;
+    color:#6060266;
+}
+.quarter-one,.quarter-three{
+    float:left;
+}
+.quarter-two,.quarter-four{
+    float:right;
+}
+.is-active{
+    color:#409eff !important;
+    border:hidden;
+    font-weight:700;
+}
+</style>
+```
+
+### 页面上使用
+
+```html
+<QuarterSelect ref="quarter"
+                :show-value="defaultShowValue"
+                @getQuarterValue="getQuarterValue"
+></QuarterSelect>
+
+defaultShowValue:new Date().getFullYear().toString()+'年1季度',//设置季度默认值
+
+getQuarterValue(value){//季度时间获取
+    const {reportTime} = value
+    this.ruleForm.reportTime=reportTime 
+}
+```
+

@@ -1,0 +1,44 @@
+# 父组件触发子组件中事件的方法
+
+### 方法一：子组件`mounted`中设置中间桥
+
+```javscript
+<!-- 子组件中 -->
+mounted(){
+    this.$on('bridge',()=>{
+        this.searchTab2List()
+    })
+}
+<!-- 父组件中，给子组件定义一个 ref 属性‘ref=sub’ -->
+async handleSearch(){
+    const valid = await this.$refs.['searchForm'].validate()
+    if(!valid){
+        return 
+    }
+    if(this.activeName===0){
+        this.queryListTab1()
+    }else if(this.activeName===1){
+        this.$refs.subref.$emit('bridge')
+    }
+
+}
+```
+
+### 方法二：通过子组件中的 `ref`直接调用
+
+```javascript
+<!-- 父组件中,给子组件定义一个 ref 属性‘ref=sub’ -->
+async handleSearch(){
+    const valid = await this.$refs.['searchForm'].validate()
+    if(!valid){
+        return 
+    }
+    if(this.activeName===0){
+        this.queryListTab1()
+    }else if(this.activeName===1){
+        this.$refs.subref.searchTab2List()
+    }
+
+}
+```
+
