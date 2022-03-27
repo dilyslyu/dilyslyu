@@ -1,0 +1,29 @@
+{
+  "name": "Dilys.Lyu",
+  "description": "Dilys.Lyu's Blog.",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "update": "bash ./update.sh",
+    "md-deploy": "bash ./scripts/update-markedit.sh",
+    "clean": "bash ./scripts/clean-git-history.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dilyslyu/dilyslyu.git"
+  },
+  "keywords": [
+    "Dilys",
+    "DilysLyu",
+    "Blog"
+  ],
+  "author": "Dilys.Lyu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dilyslyu/dilyslyu/issues"
+  },
+  "homepage": "https://github.com/dilyslyu/dilyslyu#readme",
+  "dependencies": {
+  }
+}
