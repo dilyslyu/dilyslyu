@@ -1,0 +1,31 @@
+# 用户体验问题-页面优化
+
+
+#### 需求背景
+
+为了提高用户交互体验，从用户操作使用角度出发，编码时养成一种习惯，做一些有好的提示和优化等。
+
+#### 优化点积累
+
+1. 新增/删除/修改/保存/重置之后，都要刷新列表信息。
+2. 打开弹框，若弹框中需要反显数据信息，在打开弹框之前先调用接口请求数据；若弹框中有表单，关闭弹框时要重置表单和清空校验。
+
+    ```javascript
+    handleCloseDialog(){
+        this.dialogVisible = false
+        this.$refs['dialogFormRef'].resetFields()
+        this.$nextTick(()=>{
+            this.$refs['dialogFormRef'].clearValidate()
+        })
+    }
+    // 弹框中保存表单时，校验表单必输项是否通过
+    const valid = this.$refs['dialogFormRef'].validate()
+    if(!valid){
+        return
+    }
+    // 表单校验通过下面进行调用接口等其他操作
+
+    ```
+
+3. 当进行选定操作或删除操作时，若没有选中目标要进行提示“当前未选中任何条目”、“请选择要删除的条目”。
+
