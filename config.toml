@@ -348,8 +348,8 @@ ignoreFiles = [ "\\.gitignore$", "\\.git" ]
 # 作者配置
 [author]
   name = "Dilys.Lyu"
-  email = "jonny0624@gmail.com"
-  link = "https://github.com/hellenhub"
+  email = "dilys8240@gmail.com"
+  # link = "https://github.com/hellenhub"
 
 # 网站地图配置
 [sitemap]
@@ -469,7 +469,7 @@ ignoreFiles = [ "\\.gitignore$", "\\.git" ]
         post = ""
         name = "关于"
         url = "/about"
-        title = "关于 | About - Hellen's Blog"
+        title = "关于 | About - Dilys's Blog"
         weight = 6
       [[languages.zh-cn.menu.main]]
         identifier = "bookmark"
@@ -549,15 +549,15 @@ ignoreFiles = [ "\\.gitignore$", "\\.git" ]
           paginate = 10
       # 主页的社交信息设置
       [languages.zh-cn.params.social]
-        GitHub = "hellenhub"
-        Zhihu = "jonny6015"
-        Weibo = "jonnychang"
-        Douban = "jonny6015"
+        # GitHub = "hellenhub"
+        # Zhihu = "jonny6015"
+        # Weibo = "jonnychang"
+        # Douban = "jonny6015"
         # Medium = "jonny6015"
         # Facebook = "jonny6015"
         # Twitter = "jonny6015"
         # Telegram = "hellenhub"
-        Email = "jonny6015@icloud.com"
+        # Email = "jonny6015@icloud.com"
         RSS = true
         # Linkedin = "jonnychang"
         # Instagram = "jonny6015"
