@@ -531,7 +531,7 @@ ignoreFiles = [ "\\.gitignore$", "\\.git" ]
           enable = true
           # Gravatar 邮箱，用于优先在主页显示的头像
           # gravatarEmail = "jonny6015@icloud.com"
-          gravatarEmail = "dilys8240@gmail.com"
+          # gravatarEmail = "dilys8240@gmail.com"
           # 主页显示头像的 URL
           avatarURL = "/images/avatar.png"
           # 主页显示的网站副标题
