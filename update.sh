@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /Users/dilyslyu/projects/dilyslyu
+cd /Users/dilyslyu/projects/dilyslyu || exit
 git pull
 git add .
 datetime=$(date '+%Y%m%d%H%M%S')
