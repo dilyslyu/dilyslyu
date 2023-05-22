@@ -16,7 +16,7 @@ toc:
 lightgallery: false
 ---
 
-#### 这里有一个简单的例子，它展示了如何在 React 应用中使用 Redux 来管理状态。
+#### 这里有一个简单的例子，它展示了如何在 React 应用中使用 Redux 来管理状态
 
 首先，我们需要安装 Redux 和 React-Redux
 
