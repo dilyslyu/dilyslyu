@@ -535,7 +535,7 @@ ignoreFiles = [ "\\.gitignore$", "\\.git" ]
           # 主页显示头像的 URL
           avatarURL = "/images/avatar.png"
           # 主页显示的网站副标题
-          subtitle = "一个个性的女侠"
+          subtitle = "努力做一件事，即使不成功，也不会差到哪里去"
           # 是否为副标题显示打字机动画
           typeit = true
           # 是否显示社交账号
