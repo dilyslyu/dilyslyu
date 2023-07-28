@@ -13,11 +13,11 @@ math:
 
 # 关于我和博客
 
-你们好呀，我是张向阳，是一名生活在杭州的程序员，同时梦想成为一名独立全栈开发者。
+你们好呀，我是吕静，是一名生活在杭州的程序员，同时梦想成为一名独立全栈开发者。
 
 在我看来，编程不仅仅是我与生俱来的使命，也是我快乐的源泉。在业余时间，我喜欢研究一些跟技术相关的东西。同时，我也喜欢做一些安静的事，比如看书、看电影，或者独自散步。
 
-如果你有任何问题，请给我发送邮件：[jonny0624@gmail.com](mailto:jonny0624@gmail.com)
+如果你有任何问题，请给我发送邮件：[dilys8240@163.com](mailto:dilys8240@163.com)
 
 ---
 
@@ -33,6 +33,6 @@ math:
 
 ---
 
-# 了解更多
+<!-- # 了解更多 -->
 
-You can get my Resume from [Here](https://dilyslyu.com/resume/resume.html)
+<!-- You can get my Resume from [Here](https://dilyslyu.com/resume/resume.html) -->
